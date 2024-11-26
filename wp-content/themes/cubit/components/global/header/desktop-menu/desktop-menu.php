@@ -18,7 +18,7 @@
 
   <?php wp_nav_menu($args); ?>
 
-  <div class="left-auto flex">
+  <div class="left-auto flex items-end justify-center">
     <?php echo do_shortcode('[cubit_mini_cart]'); ?>
     <?php echo do_shortcode('[cubit_wishlists]'); ?>
     <!-- Add any component here that you want to display in right side of menu -->
