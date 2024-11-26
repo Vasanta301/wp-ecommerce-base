@@ -1,0 +1,38 @@
+# Build directory
+wp-content/themes/cubit/dist/
+
+# dotenv environment variables file
+.env
+
+# Apache config
+.htaccess
+
+### Mac OS ###
+.DS_STORE
+
+### WordPress ###
+
+# Config files
+wp-config.php
+wp-config-*.php
+!wp-config-sample.php
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins", "plugins", "themes" directory
+wp-content/*
+!wp-content/index.php
+!wp-content/mu-plugins/
+!wp-content/plugins/
+!wp-content/themes/
+!wp-content/languages/
+
+### Composer ###
+composer.phar
+/vendor/
+
+### Node ###
+# Dependency directories
+node_modules/
+
+nginx.conf
+local-xdebuginfo.php

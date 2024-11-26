@@ -1,0 +1,15 @@
+/* Increase width of sidebar from 160px -> 180px */
+
+#adminmenu, #adminmenu .wp-submenu, #adminmenuback, #adminmenuwrap {
+  width: 180px;
+}
+#wpcontent, #wpfooter {
+  margin-left: 180px;
+}
+#adminmenu .wp-submenu {
+  left: 180px;
+}
+
+.wcp-content {
+  left: 180px;
+}

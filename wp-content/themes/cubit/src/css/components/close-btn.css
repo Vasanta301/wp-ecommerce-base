@@ -1,0 +1,151 @@
+.top, .middle, .bottom {
+  @apply absolute bg-current;
+}
+
+.top {
+  @apply left-0 top-1 w-full h-0.5;
+}
+
+.middle {
+  @apply top-1/2 w-full h-0.5;
+  transform: scaleX(1) translateY(-50%);
+}
+
+.bottom {
+  @apply left-0 bottom-1 w-full h-0.5;
+}
+
+@keyframes close-top {
+  0% {
+    @apply top-1;
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    @apply top-1/2;
+    transform: rotate(0deg) translateY(-50%);
+  }
+  51% {
+    @apply top-1/2;
+    transform: rotate(0deg) translateY(-50%);
+  }
+  100% {
+    @apply top-1/2;
+    transform: rotate(45deg) translateY(-50%);
+  }
+}
+
+@keyframes close-middle {
+  0% {
+    transform: scaleX(1) translateY(-50%);
+  }
+  50% {
+    transform: scaleX(1) translateY(-50%);
+  }
+  51% {
+    transform: scaleX(0) translateY(-50%);
+  }
+  100% {
+    transform: scaleX(0) translateY(-50%);
+  }
+}
+
+@keyframes close-bottom {
+  0% {
+    @apply bottom-1;
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    @apply bottom-1/2;
+    transform: rotate(0deg) translateY(50%);
+  }
+  51% {
+    @apply bottom-1/2;
+    transform: rotate(0deg) translateY(50%);
+  }
+  100% {
+    @apply bottom-1/2;
+    transform: rotate(-45deg) translateY(50%);
+  }
+}
+
+.close {
+  .top {
+    animation: close-top 500ms forwards ease-out;
+  }
+  .middle {
+    animation: close-middle 500ms forwards ease-out;
+  }
+  .bottom {
+    animation: close-bottom 500ms forwards ease-out;
+  }
+}
+
+@keyframes open-top {
+  0% {
+    @apply top-1/2;
+    transform: rotate(45deg) translateY(-50%);
+  }
+  50% {
+    @apply top-1/2;
+    transform: rotate(0deg) translateY(-50%);
+  }
+  51% {
+    @apply top-1/2;
+    transform: rotate(0deg) translateY(-50%);
+  }
+  100% {
+    @apply top-1;
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes open-middle {
+  0% {
+    transform: scaleX(0) translateY(-50%);
+  }
+  50% {
+    transform: scaleX(0) translateY(-50%);
+  }
+  51% {
+    transform: scaleX(1) translateY(-50%);
+  }
+  100% {
+    transform: scaleX(1) translateY(-50%);
+  }
+}
+
+@keyframes open-bottom {
+  0% {
+    @apply bottom-1/2;
+    transform: rotate(-45deg) translateY(50%);
+  }
+  50% {
+    @apply bottom-1/2;
+    transform: rotate(0deg) translateY(50%);
+
+  }
+  51% {
+    @apply bottom-1/2;
+    transform: rotate(0deg) translateY(50%);
+  }
+  100% {
+    @apply bottom-1;
+    transform: rotate(0deg) translateY(0%);
+  }
+}
+
+.open {
+  .top {
+    animation: open-top 300ms forwards ease-out;
+  }
+  .middle {
+    animation: open-middle 300ms forwards ease-out;
+  }
+  .bottom {
+    animation: open-bottom 300ms forwards ease-out;
+  }
+}
+
+
+
+

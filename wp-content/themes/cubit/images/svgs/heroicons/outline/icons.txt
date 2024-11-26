@@ -1,0 +1,227 @@
+academic-cap : Academic Cap
+adjustments : Adjustments
+annotation : Annotation
+archive : Archive
+arrow-circle-down : Arrow Circle Down
+arrow-circle-left : Arrow Circle Left
+arrow-circle-right : Arrow Circle Right
+arrow-circle-up : Arrow Circle Up
+arrow-down : Arrow Down
+arrow-left : Arrow Left
+arrow-narrow-down : Arrow Narrow Down
+arrow-narrow-left : Arrow Narrow Left
+arrow-narrow-right : Arrow Narrow Right
+arrow-narrow-up : Arrow Narrow Up
+arrow-right : Arrow Right
+arrow-up : Arrow Up
+arrows-expand : Arrows Expand
+at-symbol : At Symbol
+backspace : Backspace
+badge-check : Badge Check
+ban : Ban
+beaker : Beaker
+bell : Bell
+book-open : Book Open
+bookmark-alt : Bookmark Alt
+bookmark : Bookmark
+briefcase : Briefcase
+cake : Cake
+calculator : Calculator
+calendar : Calendar
+camera : Camera
+cash : Cash
+chart-bar : Chart Bar
+chart-pie : Chart Pie
+chart-square-bar : Chart Square Bar
+chat-alt-2 : Chat Alt 2
+chat-alt : Chat Alt
+chat : Chat
+check-circle : Check Circle
+check : Check
+chevron-double-down : Chevron Double Down
+chevron-double-left : Chevron Double Left
+chevron-double-right : Chevron Double Right
+chevron-double-up : Chevron Double Up
+chevron-down : Chevron Down
+chevron-left : Chevron Left
+chevron-right : Chevron Right
+chevron-up : Chevron Up
+chip : Chip
+clipboard-check : Clipboard Check
+clipboard-copy : Clipboard Copy
+clipboard-list : Clipboard List
+clipboard : Clipboard
+clock : Clock
+cloud-download : Cloud Download
+cloud-upload : Cloud Upload
+cloud : Cloud
+code : Code
+cog : Cog
+collection : Collection
+color-swatch : Color Swatch
+credit-card : Credit Card
+cube-transparent : Cube Transparent
+cube : Cube
+currency-bangladeshi : Currency Bangladeshi
+currency-dollar : Currency Dollar
+currency-euro : Currency Euro
+currency-pound : Currency Pound
+currency-rupee : Currency Rupee
+currency-yen : Currency Yen
+cursor-click : Cursor Click
+database : Database
+desktop-computer : Desktop Computer
+device-mobile : Device Mobile
+device-tablet : Device Tablet
+document-add : Document Add
+document-download : Document Download
+document-duplicate : Document Duplicate
+document-remove : Document Remove
+document-report : Document Report
+document-search : Document Search
+document-text : Document Text
+document : Document
+dots-circle-horizontal : Dots Circle Horizontal
+dots-horizontal : Dots Horizontal
+dots-vertical : Dots Vertical
+download : Download
+duplicate : Duplicate
+emoji-happy : Emoji Happy
+emoji-sad : Emoji Sad
+exclamation-circle : Exclamation Circle
+exclamation : Exclamation
+external-link : External Link
+eye-off : Eye Off
+eye : Eye
+fast-forward : Fast Forward
+film : Film
+filter : Filter
+finger-print : Finger Print
+fire : Fire
+flag : Flag
+folder-add : Folder Add
+folder-download : Folder Download
+folder-open : Folder Open
+folder-remove : Folder Remove
+folder : Folder
+gift : Gift
+globe-alt : Globe Alt
+globe : Globe
+hand : Hand
+hashtag : Hashtag
+heart : Heart
+home : Home
+identification : Identification
+inbox-in : Inbox In
+inbox : Inbox
+index : Index
+information-circle : Information Circle
+key : Key
+library : Library
+light-bulb : Light Bulb
+lightning-bolt : Lightning Bolt
+link : Link
+location-marker : Location Marker
+lock-closed : Lock Closed
+lock-open : Lock Open
+login : Login
+logout : Logout
+mail-open : Mail Open
+mail : Mail
+map : Map
+menu-alt-1 : Menu Alt 1
+menu-alt-2 : Menu Alt 2
+menu-alt-3 : Menu Alt 3
+menu-alt-4 : Menu Alt 4
+menu : Menu
+microphone : Microphone
+minus-circle : Minus Circle
+minus-sm : Minus Sm
+minus : Minus
+moon : Moon
+music-note : Music Note
+newspaper : Newspaper
+office-building : Office Building
+paper-airplane : Paper Airplane
+paper-clip : Paper Clip
+pause : Pause
+pencil-alt : Pencil Alt
+pencil : Pencil
+phone-incoming : Phone Incoming
+phone-missed-call : Phone Missed Call
+phone-outgoing : Phone Outgoing
+phone : Phone
+photograph : Photograph
+play : Play
+plus-circle : Plus Circle
+plus-sm : Plus Sm
+plus : Plus
+presentation-chart-bar : Presentation Chart Bar
+presentation-chart-line : Presentation Chart Line
+printer : Printer
+puzzle : Puzzle
+qrcode : Qrcode
+question-mark-circle : Question Mark Circle
+receipt-refund : Receipt Refund
+receipt-tax : Receipt Tax
+refresh : Refresh
+reply : Reply
+rewind : Rewind
+rss : Rss
+save-as : Save As
+save : Save
+scale : Scale
+scissors : Scissors
+search-circle : Search Circle
+search : Search
+selector : Selector
+server : Server
+share : Share
+shield-check : Shield Check
+shield-exclamation : Shield Exclamation
+shopping-bag : Shopping Bag
+shopping-cart : Shopping Cart
+sort-ascending : Sort Ascending
+sort-descending : Sort Descending
+sparkles : Sparkles
+speakerphone : Speakerphone
+star : Star
+status-offline : Status Offline
+status-online : Status Online
+stop : Stop
+sun : Sun
+support : Support
+switch-horizontal : Switch Horizontal
+switch-vertical : Switch Vertical
+table : Table
+tag : Tag
+template : Template
+terminal : Terminal
+thumb-down : Thumb Down
+thumb-up : Thumb Up
+ticket : Ticket
+translate : Translate
+trash : Trash
+trending-down : Trending Down
+trending-up : Trending Up
+truck : Truck
+upload : Upload
+user-add : User Add
+user-circle : User Circle
+user-group : User Group
+user-remove : User Remove
+user : User
+users : Users
+variable : Variable
+video-camera : Video Camera
+view-boards : View Boards
+view-grid-add : View Grid Add
+view-grid : View Grid
+view-list : View List
+volume-off : Volume Off
+volume-up : Volume Up
+wifi : Wifi
+x-circle : X Circle
+x : X
+zoom-in : Zoom In
+zoom-out : Zoom Out
