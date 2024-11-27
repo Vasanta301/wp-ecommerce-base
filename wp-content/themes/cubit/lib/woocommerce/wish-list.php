@@ -99,40 +99,30 @@ function get_wishlist_content(WP_REST_Request $request) {
     $wishlist = get_user_meta($user_id, 'wishlist', true);
     ob_start(); ?>
 
-    <?php
-    if ($wishlist && is_array($wishlist) && count($wishlist) > 0): ?>
-        <ul class="flex flex-col gap-4">
-            <?php
-            foreach ($wishlist as $product_id):
-                $product = wc_get_product($product_id);
-
-                // If it's a variation, get the parent product
-                if ($product->is_type('variation')) {
-                    $product_id = $product->get_parent_id();
-                    $product = wc_get_product($product_id);
-                }
-
-                $is_in_wishlist = in_array($product_id, $wishlist);
-                $product_permalink = $product->get_permalink();
-                $thumbnail = $product->get_image();
-                $product_name = $product->get_name();
-                $product_attributes = '';
-                if ($product->is_type('variation')) {
-                    $variation = wc_get_product($product_id);
-                    $attributes = $variation->get_attributes();
-                    foreach ($attributes as $attribute_name => $attribute_value) {
-                        $product_attributes .= ucfirst(str_replace('pa_', '', $attribute_name)) . ': ' . $attribute_value . '<br>';
+    <?php if ($wishlist && is_array($wishlist) && count($wishlist) > 0): ?>
+        <ul class="relative flex flex-col gap-4">
+            <?php foreach ($wishlist as $product_id): ?>
+                <?php $product = wc_get_product($product_id); ?>
+                <?php if ($product):
+                    // If it's a variation, get the parent product
+                    if ($product->is_type('variation')) {
+                        $product_id = $product->get_parent_id();
+                        $product = wc_get_product($product_id);
                     }
-                }
-                ?>
-                <?php if ($product): ?>
+                    $is_in_wishlist = in_array($product_id, $wishlist);
+                    $product_permalink = $product->get_permalink();
+                    $thumbnail = $product->get_image();
+                    $product_name = $product->get_description();
+                    $product_attributes = '';
+                    if ($product->is_type('variation')) {
+                        $variation = wc_get_product($product_id);
+                        $attributes = $variation->get_attributes();
+                        foreach ($attributes as $attribute_name => $attribute_value) {
+                            $product_attributes .= ucfirst(str_replace('pa_', '', $attribute_name)) . ': ' . $attribute_value . '<br>';
+                        }
+                    }
+                    ?>
                     <li class="flex flex-col items-center py-4 space-x-4 md:flex-row">
-                        <button @click="$dispatch('toggle-wishlist', { productId: <?php echo esc_js($product_id); ?> })">
-                            <div
-                                class="w-8 h-8 wishlist-trigger-icon wishlist-trigger-icon-<?= $product_id; ?> <?= $is_in_wishlist ? 'text-red-600' : 'text-gray-600'; ?>">
-                                <?= get_icon('heart', 'solid'); ?>
-                            </div>
-                        </button>
                         <div class="flex-shrink-0">
                             <?php if (empty($product_permalink)): ?>
                                 <?php echo $thumbnail; ?>
@@ -142,23 +132,29 @@ function get_wishlist_content(WP_REST_Request $request) {
                                 </a>
                             <?php endif; ?>
                         </div>
-
-                        <div class="flex-1">
+                        <div class="flex flex-col w-full">
                             <a href="<?php echo esc_url($product_permalink); ?>" class="text-blue-500 hover:text-blue-700">
-                                <?php echo $product_name; ?>
+                                <div><?= $product->get_name(); ?></div>
+                                <div class="text-gray-200 truncate line-clamp-2"><?= $product->get_description(); ?></div>
                             </a>
                             <?php if ($product->is_type('variation')): ?>
-                                <div class="text-sm text-gray-500">
-                                    <?php echo $product_attributes; ?>
+                                <div class="text-xs text-center text-gray-500">
+                                    <?= $product_attributes; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
+                        <button @click="$dispatch('toggle-wishlist', { productId: <?php echo esc_js($product_id); ?> })">
+                            <div
+                                class="w-8 h-8 wishlist-trigger-icon wishlist-trigger-icon-<?= $product_id; ?> <?= $is_in_wishlist ? 'text-red-600' : 'text-gray-600'; ?>">
+                                <?= get_icon('heart', 'solid'); ?>
+                            </div>
+                        </button>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     <?php else: ?>
-        <p>Wishlist is empty.</p>
+        <p>There are no wishlist right now. Try adding new products.</p>
     <?php endif; ?>
 
     <?php $html = ob_get_clean();
@@ -301,7 +297,6 @@ function display_wishlists_popup_shortcode_callback() {
     }
     $user_id = get_current_user_id();
     $wishlist = get_user_meta($user_id, 'wishlist', true);
-    $wishlist_count = is_array($wishlist) ? count($wishlist) : 0;
     ?>
     <div x-data="wishlistManager({wishlist:<?php echo json_encode_alpine($wishlist); ?>})"
         x-init="$nextTick(() => window.wishlistManagerInstance = $data)" @wishlistUpdated.window="refreshWishlistFragments">
@@ -309,9 +304,8 @@ function display_wishlists_popup_shortcode_callback() {
             @click="wishlistOpen = !wishlistOpen; document.dispatchEvent(new Event('wishlistUpdated'));">
             <div class="relative">
                 <span class="sr-only"><?= __('Open Wishlist', 'translation-ready'); ?></span>
-                <div
-                    class="absolute top-0 right-0 px-1 -mt-1 -mr-2 text-xs font-bold text-white bg-red-700 rounded-full wishlist-count">
-                    <?= $wishlist_count; ?>
+                <div class="absolute top-0 right-0 px-1 -mt-1 -mr-2 text-xs font-bold text-white bg-red-700 rounded-full wishlist-count"
+                    x-text="wishlistCount">
                 </div>
             </div>
             <div class="w-8 h-8">
@@ -319,12 +313,14 @@ function display_wishlists_popup_shortcode_callback() {
             </div>
         </div>
         <!-- Wishlist Popup -->
-        <div class="fixed inset-y-0 right-0 z-50 w-full h-full max-w-full pt-8 overflow-y-auto bg-white shadow-lg md:max-w-sm "
-            x-show="wishlistOpen" x-cloak x-transition:enter="transform transition ease-out duration-500"
+        <div class="fixed inset-y-0 right-0 z-50 w-full h-full max-w-full pt-8 overflow-x-hidden overflow-y-auto bg-white shadow-lg md:max-w-sm"
+            x-cloak x-effect="document.body.classList.toggle('modal-open', wishlistOpen)" x-show="wishlistOpen" x-cloak
+            x-transition:enter="transform transition ease-out duration-500"
             x-transition:enter-start="translate-x-full opacity-0" x-transition:enter-end="translate-x-0 opacity-100"
             x-transition:leave="transform transition ease-in duration-300"
             x-transition:leave-start="translate-x-0 opacity-100" x-transition:leave-end="translate-x-full opacity-0"
             @click.away="wishlistOpen = false">
+            <h3 class="pt-8 text-xl font-semibold text-center">Wishlists</h3>
             <div class="p-4 wishlist-content wishlist-items">
             </div>
         </div>

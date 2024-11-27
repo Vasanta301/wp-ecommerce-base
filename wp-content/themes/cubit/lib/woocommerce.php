@@ -1,6 +1,6 @@
 <?php
 function cubit_is_woocommerce_activated() {
-    return class_exists( 'WooCommerce' ) ? true : false;
+    return class_exists('WooCommerce') ? true : false;
 }
 
 if (cubit_is_woocommerce_activated()) {
@@ -9,4 +9,6 @@ if (cubit_is_woocommerce_activated()) {
     require_once 'woocommerce/enqueue.php';
     require_once 'woocommerce/mini-cart.php';
     require_once 'woocommerce/wish-list.php';
+    require_once 'woocommerce/order-notification.php';
 }
+

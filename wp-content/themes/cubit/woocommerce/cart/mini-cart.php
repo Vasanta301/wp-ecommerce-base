@@ -86,8 +86,8 @@ do_action('woocommerce_before_mini_cart'); ?>
 <?php else: ?>
 
 	<p class="py-4 text-center text-gray-600 woocommerce-mini-cart__empty-message">
-		<?php esc_html_e('No products in the cart.', 'woocommerce'); ?></p>
-
+		<?php esc_html_e('No products in the cart.', 'woocommerce'); ?>
+	</p>
 <?php endif; ?>
 
 <?php do_action('woocommerce_after_mini_cart'); ?>

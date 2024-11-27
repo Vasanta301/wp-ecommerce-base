@@ -1,4 +1,8 @@
 <?php
+add_shortcode('cubit_mini_cart', 'mini_cart_shortcode_callback');
+add_action('wp_enqueue_scripts', 'enqueue_woocommerce_cart_fragments');
+add_filter('woocommerce_add_to_cart_fragments', 'custom_add_to_cart_fragment');
+
 //TODO: Work on functionality and design as this is just the conceptual on displaying mini-cart on hover from menu.
 function mini_cart_shortcode_callback() {
     ob_start();
@@ -18,22 +22,24 @@ function mini_cart_shortcode_callback() {
                 </div>
             </div>
             <div class="fixed inset-y-0 right-0 z-50 w-full h-full max-w-lg overflow-y-auto bg-white shadow-lg"
-                x-show="cartOpen" x-cloak x-transition:enter="transform transition ease-out duration-500"
+                x-effect="document.body.classList.toggle('modal-open', cartOpen)" x-show="cartOpen" x-cloak
+                x-transition:enter="transform transition ease-out duration-500"
                 x-transition:enter-start="translate-x-full opacity-0" x-transition:enter-end="translate-x-0 opacity-100"
                 x-transition:leave="transform transition ease-in duration-300"
                 x-transition:leave-start="translate-x-0 opacity-100" x-transition:leave-end="translate-x-full opacity-0"
                 @click.away="cartOpen = false">
-                <div class="p-4 mini-cart-content">
-                    <?php woocommerce_mini_cart(); ?>
+                <div class="!px-2 !pt-12 mini-cart-content">
+                    <?php
+                    woocommerce_mini_cart();
+                    ?>
                 </div>
             </div>
         </div>
     </div>
-
     <?php
     return ob_get_clean();
 }
-add_shortcode('cubit_mini_cart', 'mini_cart_shortcode_callback');
+
 
 function translate_transition_dropdown_menu() {
     return 'x-transition:enter="transition ease-out duration-300"
@@ -49,13 +55,10 @@ function enqueue_woocommerce_cart_fragments() {
         wp_enqueue_script('wc-cart-fragments');
     }
 }
-add_action('wp_enqueue_scripts', 'enqueue_woocommerce_cart_fragments');
 
 function custom_add_to_cart_fragment($fragments) {
     ob_start();
     echo do_shortcode('[cubit_mini_cart]');
     $fragments['div.mini-cart'] = ob_get_clean();
-
     return $fragments;
 }
-add_filter('woocommerce_add_to_cart_fragments', 'custom_add_to_cart_fragment');

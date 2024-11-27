@@ -7,8 +7,8 @@ function enqueue_from_manifest() {
   if (file_exists($path)) {
     $str = file_get_contents($path);
     $json = json_decode($str, true);
-    wp_enqueue_style('main', get_template_directory_uri() . '/dist/' . $json['main.css']);
-    wp_enqueue_script('main', get_template_directory_uri() . '/dist/' . $json['main.js'], ['gsap', 'gsap-scrolltrigger'], '1.0.0', false);
+    wp_enqueue_style('main', get_template_directory_uri() . '/dist/' . $json['main.css'], [], time() . '-1.0.0', 'all');
+    wp_enqueue_script('main', get_template_directory_uri() . '/dist/' . $json['main.js'], ['gsap', 'gsap-scrolltrigger'], time() . '-1.0.0', false);
   }
   wp_enqueue_script('gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js', [], false, true);
   wp_enqueue_script('gsap-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/ScrollTrigger.min.js', [], false, true);
