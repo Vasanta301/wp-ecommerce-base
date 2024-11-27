@@ -100,7 +100,7 @@ function get_wishlist_content(WP_REST_Request $request) {
     ob_start(); ?>
 
     <?php if ($wishlist && is_array($wishlist) && count($wishlist) > 0): ?>
-        <ul class="relative flex flex-col gap-4">
+        <div class="relative flex flex-col gap-4">
             <?php foreach ($wishlist as $product_id): ?>
                 <?php $product = wc_get_product($product_id); ?>
                 <?php if ($product):
@@ -122,7 +122,7 @@ function get_wishlist_content(WP_REST_Request $request) {
                         }
                     }
                     ?>
-                    <li class="flex flex-col items-center py-4 space-x-4 md:flex-row">
+                    <div class="flex flex-col items-center py-4 space-x-4 md:flex-row">
                         <div class="flex-shrink-0">
                             <?php if (empty($product_permalink)): ?>
                                 <?php echo $thumbnail; ?>
@@ -133,10 +133,10 @@ function get_wishlist_content(WP_REST_Request $request) {
                             <?php endif; ?>
                         </div>
                         <div class="flex flex-col w-full">
-                            <a href="<?php echo esc_url($product_permalink); ?>" class="text-blue-500 hover:text-blue-700">
+                            <a href="<?php echo esc_url($product_permalink); ?>" class="text-blue-500 hover:text-blue-800">
                                 <div><?= $product->get_name(); ?></div>
-                                <div class="text-gray-200 truncate line-clamp-2"><?= $product->get_description(); ?></div>
                             </a>
+                            <div class="text-gray-800 line-clamp-2"><?= $product->get_description(); ?></div>
                             <?php if ($product->is_type('variation')): ?>
                                 <div class="text-xs text-center text-gray-500">
                                     <?= $product_attributes; ?>
@@ -149,10 +149,10 @@ function get_wishlist_content(WP_REST_Request $request) {
                                 <?= get_icon('heart', 'solid'); ?>
                             </div>
                         </button>
-                    </li>
+                    </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-        </ul>
+        </div>
     <?php else: ?>
         <p>There are no wishlist right now. Try adding new products.</p>
     <?php endif; ?>
