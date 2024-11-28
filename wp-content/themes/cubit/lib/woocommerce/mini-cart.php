@@ -10,7 +10,6 @@ add_action('wp_footer', 'add_popup_bottom_right_after_cart_updated');
  *
  * @return void
  */
-//TODO: Work on functionality and design as this is just the conceptual on displaying mini-cart on hover from menu.
 function mini_cart_shortcode_callback() {
     ob_start();
     ?>

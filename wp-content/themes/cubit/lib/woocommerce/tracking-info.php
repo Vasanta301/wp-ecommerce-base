@@ -89,6 +89,7 @@ add_action('init', function () {
     add_rewrite_endpoint('shipment-status', EP_ROOT | EP_PAGES);
 });
 
+//TODO : Add design to display step - (icon checkbox) and horizontal line - upto delivery. 
 add_action('woocommerce_account_shipment-status_endpoint', function () {
     $customer_orders = wc_get_orders([
         'customer_id' => get_current_user_id(),

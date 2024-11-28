@@ -111,6 +111,7 @@ function get_notifications_content(WP_REST_Request $request) {
                 ?>
                 <li class="flex flex-col p-2 border-b <?= $notification->is_read == 1 ? 'text-gray-500' : 'text-black'; ?>"
                     id="notification-<?php echo esc_attr($notification->id); ?>">
+                    <!-- TODO : Define notice origin either order, shipment status to determine permalink -->
                     <a href="<?php echo $order_url; ?>">
                         <?php echo wp_kses_post($message); ?>
                     </a>

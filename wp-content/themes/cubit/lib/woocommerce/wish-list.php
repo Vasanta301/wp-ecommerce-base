@@ -196,7 +196,6 @@ function get_wishlist_count(WP_REST_Request $request) {
  * 
  * @return WP_REST_Response The heart icon with the status or a 401 response if unauthorized.
  */
-//TODO: Work on functionality and design as this is just the conceptual on displaying wishlist on product and page to all wishlists from menu.
 function get_wishlist_status(WP_REST_Request $request) {
     $user_id = get_current_user_id();
     if (!$user_id) {
