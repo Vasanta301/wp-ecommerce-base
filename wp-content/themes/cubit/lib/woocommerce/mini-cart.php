@@ -100,7 +100,7 @@ function add_popup_bottom_right_after_cart_updated() {
         <div x-show="cartAlertOpen" x-transition
             class="fixed content-center justify-center hidden max-w-sm px-4 py-3 bg-green-400 rounded shadow-lg w-60 md:flex bottom-5 right-5 gap-x-2">
             <div class="self-center block w-16 h-auto">
-                <img src="<?= get_template_directory_uri() . '/images/yay.gif'; ?>" />
+                <img src="<?= get_template_directory_uri() . '/src/img/yay.gif'; ?>" />
             </div>
             <div class="self-center text-sm text-white" x-text="cartAlertMessage">
             </div>
