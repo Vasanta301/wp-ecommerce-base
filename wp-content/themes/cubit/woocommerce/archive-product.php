@@ -24,7 +24,7 @@ get_header('shop');
 <div class="container flex flex-col px-4 mx-auto md:flex-row" x-data="shopFilters">
 
     <div class="w-full md:w-1/4">
-        <?php get_sidebar('shop'); ?>
+        <?php get_sidebar('sidebar'); ?>
     </div>
     <div class="w-full md:w-3/4">
         <?php
