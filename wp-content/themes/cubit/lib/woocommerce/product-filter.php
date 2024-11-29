@@ -3,6 +3,7 @@ remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30
 add_action('pre_get_posts', 'mytheme_pre_get_posts');
 add_action('wp_footer', 'product_filter_custom_alpine');
 add_action('rest_api_init', 'register_filter_api_routes');
+add_filter('woocommerce_show_page_title', 'hide_shop_page_title');
 
 /** 
  * Filter by Category and Price
@@ -31,6 +32,20 @@ function mytheme_pre_get_posts($query) {
     }
 }
 
+function remove_woocommerce_result_count($text) {
+    // Remove the result count entirely on shop or product category pages
+    if (is_shop() || is_product_category()) {
+        return ''; // Return an empty string to remove the result count text
+    }
+
+    return $text;
+}
+add_filter('woocommerce_result_count', 'remove_woocommerce_result_count');
+
+/**
+ * Summary of register_filter_api_routes
+ * @return void
+ */
 function register_filter_api_routes() {
     register_rest_route('filters/v1', '/filter', [
         'methods' => 'POST', // Change to POST
@@ -43,6 +58,8 @@ function filter_products_callback($request) {
         'post_type' => 'product',
         'posts_per_page' => -1,
         'post_status' => 'publish',
+        'orderby' => 'title',
+        'order' => 'ASC',
     ];
 
     $params = $request->get_json_params();
@@ -110,6 +127,10 @@ function filter_products_callback($request) {
     ];
 }
 
+/**
+ * Product Filter Custom Alpine
+ * @return void
+ */
 function product_filter_custom_alpine() {
     if (is_shop()) {
         ?>
@@ -171,4 +192,27 @@ function product_filter_custom_alpine() {
         </script>
         <?php
     }
+}
+
+/**
+ * Woocommerce result count removal
+ */
+add_action('after_setup_theme', function () {
+    remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
+    remove_action('woocommerce_after_shop_loop', 'woocommerce_result_count', 20);
+});
+
+
+
+/**
+ * Hide the shop page title.
+ *
+ * @param bool|string $title The title to check. If `false`, the title is hidden.
+ *
+ * @return bool|string The modified title. If `false`, the title is hidden.
+ */
+function hide_shop_page_title($title) {
+    if (is_shop())
+        $title = false;
+    return $title;
 }
