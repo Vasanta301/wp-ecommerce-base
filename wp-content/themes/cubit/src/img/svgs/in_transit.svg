@@ -1,6 +1,6 @@
 <svg viewBox="0 0 14 14" role="img" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-	<path fill="#3d3b3b" d="M12 9.75H8.5v-5c0-.275.225-.5.5-.5h2c.15 0 .3.075.4.2l1.5 1.925c.075.1.1.2.1.3V8.75c0 .55-.45 1-1 1z" />
-	<g fill="#a5a3a3">
+	<path fill="currentColor" d="M12 9.75H8.5v-5c0-.275.225-.5.5-.5h2c.15 0 .3.075.4.2l1.5 1.925c.075.1.1.2.1.3V8.75c0 .55-.45 1-1 1z" />
+	<g fill="currentColor">
 		<path d="M3 9.75h5.5V4c0-.55-.45-1-1-1H2v5.75c0 .55.45 1 1 1z" />
 		<path d="M1 3h2.5v.5H1zm0 1.25h2.5v.5H1zM1 5.5h2.5V6H1zm0 1.25h2.5v.5H1z" />
 	</g>

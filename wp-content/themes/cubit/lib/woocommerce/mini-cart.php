@@ -34,7 +34,7 @@ function mini_cart_shortcode_callback() {
                 x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
             </div>
-            <div class="fixed inset-y-0 right-0 z-50 w-full h-full max-w-lg overflow-y-auto bg-white shadow-lg"
+            <div class="fixed inset-y-0 right-0 z-50 w-full h-full max-w-sm overflow-y-auto bg-white shadow-lg"
                 x-effect="document.body.classList.toggle('modal-open', cartOpen)" x-show="cartOpen" x-cloak
                 x-transition:enter="transform transition ease-out duration-500"
                 x-transition:enter-start="translate-x-full opacity-0" x-transition:enter-end="translate-x-0 opacity-100"

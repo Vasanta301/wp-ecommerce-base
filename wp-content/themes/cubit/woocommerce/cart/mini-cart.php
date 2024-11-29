@@ -16,11 +16,12 @@ do_action('woocommerce_before_mini_cart'); ?>
 
 			if ($_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters('woocommerce_widget_cart_item_visible', true, $cart_item, $cart_item_key)) {
 				$product_name = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
-				$thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key);
+				$thumbnail = apply_filters('woocommerce_cart_item_thumbnail', get_post_thumbnail_id($product_id), $cart_item, $cart_item_key);
 				$product_price = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
 				$product_permalink = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
 				?>
-				<li class="flex items-center py-4 space-x-4 woocommerce-mini-cart-item mini_cart_item">
+				<li
+					class="flex flex-col items-center justify-between py-4 space-x-4 md:flex-row woocommerce-mini-cart-item mini_cart_item">
 					<a href="<?php echo esc_url(wc_get_cart_remove_url($cart_item_key)); ?>"
 						class="text-sm text-red-500 hover:text-red-700"
 						aria-label="<?php echo esc_attr(sprintf(__('Remove %s from cart', 'woocommerce'), $product_name)); ?>"
@@ -30,12 +31,12 @@ do_action('woocommerce_before_mini_cart'); ?>
 						&times;
 					</a>
 
-					<div class="flex-shrink-0">
+					<div class="flex-shrink-0 w-28 h-28">
 						<?php if (empty($product_permalink)): ?>
 							<?php echo $thumbnail; ?>
 						<?php else: ?>
 							<a href="<?php echo esc_url($product_permalink); ?>">
-								<?php echo $thumbnail; ?>
+								<?= get_img($thumbnail, '', ['class' => 'object-contain']); ?>
 							</a>
 						<?php endif; ?>
 					</div>

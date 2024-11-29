@@ -6,9 +6,13 @@ add_action('woocommerce_new_order', 'notify_user_on_order_event', 10, 1);
 add_action('woocommerce_order_status_changed', 'notify_user_on_order_event', 10, 3);
 add_shortcode('cubit_order_notification', 'cubit_order_notification_shortcode_callback');
 
+/**
+ * Function : Create new table to add notification  data
+ * @return void
+ */
 function create_notification_table_on_theme_activation() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'user_notifications';
+    $table_name = $wpdb->prefix . 'c_user_notifications';
     $charset_collate = $wpdb->get_charset_collate();
 
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
@@ -16,6 +20,7 @@ function create_notification_table_on_theme_activation() {
         user_id BIGINT(20) UNSIGNED NOT NULL,
         message TEXT NOT NULL,
         is_read TINYINT(1) DEFAULT 0,
+        source TEXT NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     ) $charset_collate;";
 
@@ -23,6 +28,10 @@ function create_notification_table_on_theme_activation() {
     dbDelta($sql);
 }
 
+/**
+ * Register Order Notification API routes
+ * @return void
+ */
 function register_order_notification_api_routes() {
     register_rest_route('notification/v1', '/count', array(
         'methods' => 'GET',
@@ -42,6 +51,11 @@ function register_order_notification_api_routes() {
     ));
 }
 
+/**
+ * Get Notification COunt from DB table counting no. of order per user_id
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response
+ */
 function get_notification_count(WP_REST_Request $request) {
     $user_id = get_current_user_id();
     if (!$user_id) {
@@ -49,7 +63,7 @@ function get_notification_count(WP_REST_Request $request) {
     }
     global $wpdb;
     $user_id = get_current_user_id();
-    $table_name = $wpdb->prefix . 'user_notifications';
+    $table_name = $wpdb->prefix . 'c_user_notifications';
 
     $notification_count = $wpdb->get_var($wpdb->prepare(
         "SELECT COUNT(*) FROM $table_name WHERE user_id = %d AND is_read = 0",
@@ -57,10 +71,16 @@ function get_notification_count(WP_REST_Request $request) {
     ));
     return new WP_REST_Response(array('count' => $notification_count), 200);
 }
+
+/**
+ * Rest API : Mark notification as read
+ * @param WP_REST_Request $request
+ * @return WP_Error|WP_REST_Response
+ */
 function mark_notification_as_read(WP_REST_Request $request) {
     $notification_id = intval($request->get_param('notification_id'));
     global $wpdb;
-    $table_name = $wpdb->prefix . 'user_notifications';
+    $table_name = $wpdb->prefix . 'c_user_notifications';
 
     $updated = $wpdb->update(
         $table_name,
@@ -78,6 +98,11 @@ function mark_notification_as_read(WP_REST_Request $request) {
     ]);
 }
 
+/**
+ * Get notification html content on page load and when new notification is updated.
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response
+ */
 function get_notifications_content(WP_REST_Request $request) {
     $user_id = get_current_user_id();
     if (!$user_id) {
@@ -87,7 +112,7 @@ function get_notifications_content(WP_REST_Request $request) {
     <?php
     global $wpdb;
     $user_id = get_current_user_id();
-    $table_name = $wpdb->prefix . 'user_notifications';
+    $table_name = $wpdb->prefix . 'c_user_notifications';
 
     // Fetch notifications for the logged-in user
     $notifications = $wpdb->get_results($wpdb->prepare(
@@ -107,15 +132,21 @@ function get_notifications_content(WP_REST_Request $request) {
                 $message = $notification->message;
                 preg_match('/#(\d+)/', $message, $matches);
                 $order_id = isset($matches[1]) ? $matches[1] : '';
-                $order_url = esc_url(wc_get_endpoint_url('view-order', $order_id, wc_get_page_permalink('myaccount')));
+                if ($notification->source == 'order') {
+                    $notification_url = esc_url(wc_get_endpoint_url('view-order', $order_id, wc_get_page_permalink('myaccount')));
+                } else {
+                    $notification_url = get_tracking_dashboard_url($user_id);
+                }
+
                 ?>
                 <li class="flex flex-col p-2 border-b <?= $notification->is_read == 1 ? 'text-gray-500' : 'text-black'; ?>"
                     id="notification-<?php echo esc_attr($notification->id); ?>">
                     <!-- TODO : Define notice origin either order, shipment status to determine permalink -->
-                    <a href="<?php echo $order_url; ?>">
+                    <a href="<?php echo $notification_url; ?>"
+                        @click="markNotificationAsRead(<?php echo esc_js($notification->id); ?>)">
                         <?php echo wp_kses_post($message); ?>
                     </a>
-                    <small class="text-sm text-gray-600"><?php echo esc_html($notification->created_at); ?></small>
+                    <small class="text-sm text-gray-600 "><?php echo esc_html($notification->created_at); ?></small>
                     <?php if ($notification->is_read == 0): ?>
                         <a href="#" @click.prevent="markNotificationAsRead(<?php echo esc_js($notification->id); ?>)">Mark
                             as read</a>
@@ -133,16 +164,29 @@ function get_notifications_content(WP_REST_Request $request) {
     <?php $html = ob_get_clean();
     return new WP_REST_Response(array('html' => $html), 200);
 }
+/**
+ * Notify user about new order.
+ *
+ * @param int $order_id The order ID.
+ */
 function notify_user_on_order_event($order_id, $old_status = '', $new_status = '') {
     if (!function_exists('wc_get_order'))
         return;
 
     $order = wc_get_order($order_id);
-    $user_id = $order->get_user_id();
 
+    if (!$order)
+        return;
+
+    // Get User ID
+    $user_id = $order->get_user_id();
     if (!$user_id)
         return; // Skip if no user is associated with the order
 
+    // Get Order source for notification
+    $source = $order->get_view_order_url();
+
+    // Get Order notification message
     $message = '';
     if ($old_status === '') {
         $message = "Your order #{$order_id} has been placed successfully.";
@@ -150,21 +194,33 @@ function notify_user_on_order_event($order_id, $old_status = '', $new_status = '
         $message = "The status of your order #{$order_id} has changed to {$new_status}.";
     }
 
-    save_user_notification($user_id, $message);
+    save_user_notification($user_id, $source, $message);
 }
 
-function save_user_notification($user_id, $message) {
+/**
+ * Save user notification
+ * @param mixed $user_id
+ * @param mixed $source
+ * @param mixed $message
+ * @return void
+ */
+function save_user_notification($user_id, $source, $message) {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'user_notifications';
+    $table_name = $wpdb->prefix . 'c_user_notifications';
 
     $wpdb->insert($table_name, [
         'user_id' => $user_id,
         'message' => $message,
         'is_read' => 0,
+        'source' => $source,
         'created_at' => current_time('mysql'),
     ]);
 }
 
+/**
+ * Order Notification Shortcode callback
+ * @return bool|string
+ */
 function cubit_order_notification_shortcode_callback() {
     ob_start();
 
@@ -174,7 +230,7 @@ function cubit_order_notification_shortcode_callback() {
 
     global $wpdb;
     $user_id = get_current_user_id();
-    $table_name = $wpdb->prefix . 'user_notifications';
+    $table_name = $wpdb->prefix . 'c_user_notifications';
 
     // Fetch notifications for the logged-in user
     $notifications = $wpdb->get_results($wpdb->prepare(
@@ -214,8 +270,12 @@ function cubit_order_notification_shortcode_callback() {
         return ob_get_clean();
 }
 
-
-
+/**
+ * Register order notification for custom alpine into footer to call 
+ * "Notification content", "Notification count" and "Mark notification as read"
+ * @link https://github.com/alpinejs/alpine
+ * @return void
+ */
 function order_notification_custom_alpine() {
     ?>
         <script>

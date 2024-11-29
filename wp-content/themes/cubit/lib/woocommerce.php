@@ -11,5 +11,6 @@ if (cubit_is_woocommerce_activated()) {
     require_once 'woocommerce/wish-list.php';
     require_once 'woocommerce/order-notification.php';
     require_once 'woocommerce/tracking-info.php';
+    require_once 'woocommerce/utils.php';
 }
 
